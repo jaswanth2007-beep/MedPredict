@@ -1,6 +1,14 @@
+import os
+from pathlib import Path
+
 import joblib
 import streamlit as st
 import plotly.express as px
+
+# Resolve paths relative to this app.py file. This is important on Streamlit Cloud,
+# where the working directory is the repository root.
+BASE_DIR = Path(__file__).resolve().parent
+os.chdir(BASE_DIR)
 
 from src.data import load_train, add_rul, add_features
 
@@ -38,7 +46,7 @@ st.caption(
 
 try:
     bundle = joblib.load(
-        "models/medpredict.joblib"
+        BASE_DIR / "models" / "medpredict.joblib"
     )
 
 except FileNotFoundError:
@@ -423,7 +431,7 @@ fig = px.line(
 
 st.plotly_chart(
     fig,
-    use_container_width=True
+    width='stretch'
 )
 
 
@@ -479,7 +487,7 @@ recent_data.columns = [
 
 st.dataframe(
     recent_data,
-    use_container_width=True,
+    width='stretch',
     hide_index=True
 )
 
