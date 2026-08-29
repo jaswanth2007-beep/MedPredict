@@ -1,16 +1,12 @@
-import os
 from pathlib import Path
 
 import joblib
 import streamlit as st
 import plotly.express as px
 
-# Resolve paths relative to this app.py file. This is important on Streamlit Cloud,
-# where the working directory is the repository root.
-BASE_DIR = Path(__file__).resolve().parent
-os.chdir(BASE_DIR)
-
 from src.data import load_train, add_rul, add_features
+
+BASE_DIR = Path(__file__).resolve().parent
 
 
 # =========================================================
@@ -65,7 +61,7 @@ except FileNotFoundError:
 # LOAD DATA
 # =========================================================
 
-df = load_train()
+df = load_train(BASE_DIR / "data" / "raw" / "train_FD001.txt")
 
 df = add_rul(df)
 
